@@ -8,13 +8,31 @@ basic.forever(function () {
     LichtOst = Math.map(pins.analogReadPin(AnalogPin.P0), 0, 1023, 0, 100)
     LichtWest = Math.map(pins.analogReadPin(AnalogPin.P1), 0, 1023, 0, 100)
     if (LichtOst > LichtWest) {
-        Position = Position - 1
+        if (Position > 0) {
+            Position = Position - 1
+        }
+        basic.showLeds(`
+            . . # . .
+            . # . . .
+            # # # # #
+            . # . . .
+            . . # . .
+            `)
     }
     if (LichtOst < LichtWest) {
-        Position = Position + 1
+        if (Position < 180) {
+            Position = Position + 1
+        }
+        basic.showLeds(`
+            . . # . .
+            . . . # .
+            # # # # #
+            . . . # .
+            . . # . .
+            `)
     }
     if (LichtOst == LichtWest) {
-        Position = Position + 1
+        basic.showIcon(IconNames.Happy)
     }
     pins.servoWritePin(AnalogPin.P5, Position)
 })
